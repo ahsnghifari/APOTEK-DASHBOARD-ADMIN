@@ -2,13 +2,9 @@
 import React from "react";
 import { Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
-import {
-  FaTachometerAlt,
-  FaBriefcase,
-  FaUserShield,
-  FaClipboardList,
-  FaComments,
-} from "react-icons/fa";
+import { FaUserShield, FaCashRegister } from "react-icons/fa";
+import { TbHomeEdit } from "react-icons/tb";
+import { GiMedicines } from "react-icons/gi";
 import { CiLogout } from "react-icons/ci";
 
 function Sidebar() {
@@ -25,23 +21,38 @@ function Sidebar() {
 
       <ul className="space-y-4 flex-grow">
         <li className="flex items-center mb-2">
+          <TbHomeEdit className="mr-3 text-lg" />
+          <a
+            onClick={() => router.push("/Beranda")}
+            className="cursor-pointer text-lg hover:text-gray-400"
+          >
+            Beranda
+          </a>
+        </li>
+        <li className="flex items-center mb-2">
           <FaUserShield className="mr-3 text-lg" />
           <a
             onClick={() => router.push("/DataAdmin")}
-            className="text-lg hover:text-gray-400"
+            className="cursor-pointer text-lg hover:text-gray-400"
           >
             Data Admin
           </a>
         </li>
         <li className="flex items-center mb-2">
-          <FaClipboardList className="mr-3 text-lg" />
-          <a href="#data-obat" className="text-lg hover:text-gray-400">
+          <GiMedicines className="mr-3 text-lg" />
+          <a
+            onClick={() => router.push("/DataObat")}
+            className="cursor-pointer text-lg hover:text-gray-400"
+          >
             Data Obat
           </a>
         </li>
         <li className="flex items-center mb-2">
-          <FaComments className="mr-3 text-lg" />
-          <a href="#data-kasir" className="text-lg hover:text-gray-400">
+          <FaCashRegister className="mr-3 text-lg" />
+          <a
+            onClick={() => router.push("/DataKasir")}
+            className="cursor-pointer text-lg hover:text-gray-400"
+          >
             Data Kasir
           </a>
         </li>
