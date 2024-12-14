@@ -9,18 +9,8 @@ const useMasukDenganEmailKataSandi = () => {
   const [sedangMemuat, setSedangMemuat] = useState(false);
 
   const masukDenganEmail = async (email, password) => {
-    if (!email && !password) {
+    if (!email || !password) {
       toast.error("Email dan kata sandi tidak boleh kosong.");
-      return;
-    }
-
-    if (!email) {
-      toast.error("Email harus diisi.");
-      return;
-    }
-
-    if (!password) {
-      toast.error("Kata sandi harus diisi.");
       return;
     }
 
@@ -36,17 +26,20 @@ const useMasukDenganEmailKataSandi = () => {
       if (kredentialsAdmin.user) {
         localStorage.setItem("ID_Admin", kredentialsAdmin.user.uid);
         toast.success("Berhasil masuk!");
-        pengarah.push("/Beranda");
+
+        setTimeout(() => {
+          pengarah.push("/Beranda");
+        }, 5000);
       }
     } catch (error) {
       if (error.code === "auth/user-not-found") {
-        toast.error("Email Salah. Silakan periksa email Anda.");
+        toast.error("Email tidak ditemukan. Silakan periksa email Anda.");
       } else if (error.code === "auth/wrong-password") {
         toast.error("Kata sandi salah. Silakan periksa kata sandi Anda.");
       } else if (error.code === "auth/invalid-email") {
         toast.error("Format email tidak valid.");
       } else {
-        toast.error("Akun tidak ditemukan.");
+        toast.error("Gagal masuk. Silakan coba lagi.");
       }
     } finally {
       setSedangMemuat(false);

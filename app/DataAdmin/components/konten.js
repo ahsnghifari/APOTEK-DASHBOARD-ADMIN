@@ -1,20 +1,15 @@
 import React, { useState } from "react";
-import { FaTrashArrowUp } from "react-icons/fa6";
+import { FaTrashAlt } from "react-icons/fa";
 import { RiEdit2Fill } from "react-icons/ri";
 // KOMPONEN
 import ModalTambahAdmin from "@/components/ModalTambahAdmin";
+import MemuatRangkaTampilkanTabel from "@/components/memuatRangkaTabel";
+// HOOKS
+import useTampilkanAdmin from "@/hooks/useTampilkanAdmin";
 
 function Konten() {
   const [modalBuka, setModalBuka] = useState(false);
-
-  const dataAdmin = [
-    {
-      id: 1,
-      nama: "Ahsan Ghifari",
-      email: "ahsanghifari@gmail.com",
-      jabatan: "Administrator",
-    },
-  ];
+  const { sedangMemuatTampilkanAdmin, daftarAdmin } = useTampilkanAdmin();
 
   const bukaModal = () => {
     setModalBuka(true);
@@ -37,40 +32,54 @@ function Konten() {
       </div>
 
       {/* Modal Tambah Admin */}
-      <ModalTambahAdmin buka={modalBuka} tutup={tutupModal} simpan={() => {}} />
+      <ModalTambahAdmin buka={modalBuka} tutup={tutupModal} />
 
       <div className="overflow-x-auto bg-white shadow-md rounded-lg mt-6">
         <table className="min-w-full text-left text-sm">
           <thead className="bg-gray-100 border-b">
             <tr>
-              <th className="px-6 py-4 font-medium text-gray-900">Nama</th>
-              <th className="px-6 py-4 font-medium text-gray-900">Email</th>
-              <th className="px-6 py-4 font-medium text-gray-900">Jabatan</th>
-              <th className="px-6 py-4 font-medium text-gray-900">Aksi</th>
+              <th className="px-6 py-4 font-medium text-black">Nama</th>
+              <th className="px-6 py-4 font-medium text-black">Email</th>
+              <th className="px-6 py-4 font-medium text-black">Jabatan</th>
+              <th className="px-6 py-4 font-medium text-black">Aksi</th>
             </tr>
           </thead>
           <tbody>
-            {dataAdmin.map((admin) => (
-              <tr key={admin.id} className="border-b hover:bg-gray-50">
-                <td className="px-6 py-4 text-gray-800">{admin.nama}</td>
-                <td className="px-6 py-4 text-gray-800">{admin.email}</td>
-                <td className="px-6 py-4 text-gray-800">{admin.jabatan}</td>
-                <td className="px-6 py-4 text-gray-800 flex gap-4">
-                  <button
-                    className="text-blue-500 hover:text-blue-700"
-                    aria-label="Edit"
-                  >
-                    <RiEdit2Fill size={18} />
-                  </button>
-                  <button
-                    className="text-red-500 hover:text-red-700"
-                    aria-label="Hapus"
-                  >
-                    <FaTrashArrowUp size={18} />
-                  </button>
+            {sedangMemuatTampilkanAdmin ? (
+              <tr>
+                <td colSpan="4" className="px-6 py-4 text-center text-gray-500">
+                  <MemuatRangkaTampilkanTabel />
                 </td>
               </tr>
-            ))}
+            ) : daftarAdmin.length === 0 ? (
+              <tr>
+                <td colSpan="4" className="px-6 py-4 text-center text-gray-500">
+                  Data admin tidak ada
+                </td>
+              </tr>
+            ) : (
+              daftarAdmin.map((admin) => (
+                <tr key={admin.id} className="border-b hover:bg-gray-50">
+                  <td className="px-6 py-4 text-black">{admin.Nama_Lengkap}</td>
+                  <td className="px-6 py-4 text-black">{admin.Email}</td>
+                  <td className="px-6 py-4 text-black">{admin.Jabatan}</td>
+                  <td className="px-6 py-4 text-black flex gap-4">
+                    <button
+                      className="text-blue-500 hover:text-blue-700"
+                      aria-label="Edit"
+                    >
+                      <RiEdit2Fill size={18} />
+                    </button>
+                    <button
+                      className="text-red-500 hover:text-red-700"
+                      aria-label="Hapus"
+                    >
+                      <FaTrashAlt size={18} />
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

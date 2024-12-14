@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// KOMPONEN KAMI
+// KOMPONEN
 import Sidebar from "@/components/sidebar";
 import Konten from "@/app/DataAdmin/components/konten";
 

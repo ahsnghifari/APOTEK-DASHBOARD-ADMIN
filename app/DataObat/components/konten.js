@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaTrashArrowUp } from "react-icons/fa6";
 import { RiEdit2Fill } from "react-icons/ri";
+// KOMPONEN
+import ModalTambahObat from "@/components/ModalTambahObat";
 
 function Konten() {
+  const [modalBuka, setModalBuka] = useState(false);
+
   const dataObat = [
     {
       id: 1,
@@ -13,8 +17,29 @@ function Konten() {
     },
   ];
 
+  const bukaModal = () => {
+    setModalBuka(true);
+  };
+
+  const tutupModal = () => {
+    setModalBuka(false);
+  };
+
   return (
     <div className="w-full h-full p-6 bg-gray-500 bg-opacity-25 rounded-xl my-8">
+      {/* Tombol Tambah Admin */}
+      <div className="mb-4">
+        <button
+          onClick={bukaModal}
+          className="px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-500"
+        >
+          Tambah Obat
+        </button>
+      </div>
+
+      {/* Modal Tambah Obat */}
+      <ModalTambahObat buka={modalBuka} tutup={tutupModal} simpan={() => {}} />
+
       <div className="overflow-x-auto bg-white shadow-md rounded-lg">
         <table className="min-w-full text-left text-sm">
           <thead className="bg-gray-100 border-b">
