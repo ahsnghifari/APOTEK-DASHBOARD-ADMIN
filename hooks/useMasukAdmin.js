@@ -29,7 +29,7 @@ const useMasukDenganEmailKataSandi = () => {
 
         setTimeout(() => {
           pengarah.push("/Beranda");
-        }, 5000);
+        }, 3000);
       }
     } catch (error) {
       if (error.code === "auth/user-not-found") {

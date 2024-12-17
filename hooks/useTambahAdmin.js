@@ -51,7 +51,7 @@ const useTambahAdmin = () => {
         Email: email,
         Kata_Sandi: kataSandi,
         Jabatan: jabatan,
-        dibuatPada: serverTimestamp(),
+        Tanggal_Dibuat: serverTimestamp(),
       });
 
       toast.success("Admin berhasil ditambahkan!");

@@ -4,6 +4,7 @@ import { RiEdit2Fill } from "react-icons/ri";
 // KOMPONEN
 import ModalTambahAdmin from "@/components/ModalTambahAdmin";
 import MemuatRangkaTampilkanTabel from "@/components/memuatRangkaTabel";
+import Memuat from "@/components/memuat";
 // HOOKS
 import useTampilkanAdmin from "@/hooks/useTampilkanAdmin";
 import useHapusAdmin from "@/hooks/useHapusAdmin";
@@ -22,7 +23,9 @@ function Konten() {
   };
 
   const handleHapusAdmin = async (idAdmin) => {
-    const konfirmasi = window.confirm("Apakah Anda yakin ingin menghapus admin ini?");
+    const konfirmasi = window.confirm(
+      "Apakah Anda yakin ingin menghapus admin ini?"
+    );
     if (konfirmasi) {
       await hapusAdmin(idAdmin);
     }
@@ -30,7 +33,6 @@ function Konten() {
 
   return (
     <div className="w-full h-full p-6 bg-gray-500 bg-opacity-25 rounded-xl my-8">
-      {/* Tombol Tambah Admin */}
       <div className="mb-4">
         <button
           onClick={bukaModal}
@@ -40,12 +42,9 @@ function Konten() {
         </button>
       </div>
 
-      {/* Modal Tambah Admin */}
-      <ModalTambahAdmin buka={modalBuka} tutup={tutupModal} />
-
       <div className="overflow-x-auto bg-white shadow-md rounded-lg mt-6">
         <table className="min-w-full text-left text-sm">
-          <thead className="bg-gray-100 border-b">
+          <thead className="bg-gray-500 border-b">
             <tr>
               <th className="px-6 py-4 font-medium text-black">Nama</th>
               <th className="px-6 py-4 font-medium text-black">Email</th>
@@ -85,7 +84,11 @@ function Konten() {
                       aria-label="Hapus"
                       disabled={sedangMemuatHapus}
                     >
-                      {sedangMemuatHapus ? "..." : <FaTrashAlt size={18} />}
+                      {sedangMemuatHapus ? (
+                        <Memuat />
+                      ) : (
+                        <FaTrashAlt size={18} />
+                      )}
                     </button>
                   </td>
                 </tr>
@@ -94,6 +97,7 @@ function Konten() {
           </tbody>
         </table>
       </div>
+      <ModalTambahAdmin buka={modalBuka} tutup={tutupModal} />
     </div>
   );
 }
