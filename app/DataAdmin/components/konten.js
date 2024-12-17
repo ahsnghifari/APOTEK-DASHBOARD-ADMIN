@@ -6,10 +6,12 @@ import ModalTambahAdmin from "@/components/ModalTambahAdmin";
 import MemuatRangkaTampilkanTabel from "@/components/memuatRangkaTabel";
 // HOOKS
 import useTampilkanAdmin from "@/hooks/useTampilkanAdmin";
+import useHapusAdmin from "@/hooks/useHapusAdmin";
 
 function Konten() {
   const [modalBuka, setModalBuka] = useState(false);
   const { sedangMemuatTampilkanAdmin, daftarAdmin } = useTampilkanAdmin();
+  const { sedangMemuatHapus, hapusAdmin } = useHapusAdmin();
 
   const bukaModal = () => {
     setModalBuka(true);
@@ -17,6 +19,13 @@ function Konten() {
 
   const tutupModal = () => {
     setModalBuka(false);
+  };
+
+  const handleHapusAdmin = async (idAdmin) => {
+    const konfirmasi = window.confirm("Apakah Anda yakin ingin menghapus admin ini?");
+    if (konfirmasi) {
+      await hapusAdmin(idAdmin);
+    }
   };
 
   return (
@@ -71,10 +80,12 @@ function Konten() {
                       <RiEdit2Fill size={18} />
                     </button>
                     <button
+                      onClick={() => handleHapusAdmin(admin.id)}
                       className="text-red-500 hover:text-red-700"
                       aria-label="Hapus"
+                      disabled={sedangMemuatHapus}
                     >
-                      <FaTrashAlt size={18} />
+                      {sedangMemuatHapus ? "..." : <FaTrashAlt size={18} />}
                     </button>
                   </td>
                 </tr>

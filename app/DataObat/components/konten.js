@@ -6,12 +6,15 @@ import ModalTambahObat from "@/components/ModalTambahObat";
 import MemuatRangkaTampilkanTabel from "@/components/memuatRangkaTabel";
 // HOOKS
 import useTampilkanObat from "@/hooks/useTampilkanObat";
+import useHapusObat from "@/hooks/useHapusObat";
 // KONSTANTA KAMI
 import { formatRupiah } from "@/constants/formatRupiah";
 
 function Konten() {
   const [modalBuka, setModalBuka] = useState(false);
   const { sedangMemuatTampilkanObat, daftarObat } = useTampilkanObat();
+  const { sedangMemuatHapus, hapusObat } = useHapusObat();
+
 
   const bukaModal = () => {
     setModalBuka(true);
@@ -19,6 +22,13 @@ function Konten() {
 
   const tutupModal = () => {
     setModalBuka(false);
+  };
+
+  const handleHapusObat = async (idObat) => {
+    const konfirmasi = window.confirm("Apakah Anda yakin ingin menghapus Obat ini?");
+    if (konfirmasi) {
+      await hapusObat(idObat);
+    }
   };
 
   return (
@@ -77,10 +87,12 @@ function Konten() {
                       <RiEdit2Fill size={18} />
                     </button>
                     <button
+                      onClick={() => handleHapusObat(obat.id)}
                       className="text-red-500 hover:text-red-700"
-                      aria-label="Delete"
+                      aria-label="Hapus"
+                      disabled={sedangMemuatHapus}
                     >
-                      <FaTrashAlt size={18} />
+                      {sedangMemuatHapus ? "..." : <FaTrashAlt size={18} />}
                     </button>
                   </td>
                 </tr>
