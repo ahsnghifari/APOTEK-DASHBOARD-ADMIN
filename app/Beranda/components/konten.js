@@ -10,6 +10,11 @@ import {
   CardHeader,
   CardFooter,
 } from "@material-tailwind/react";
+// HOOKS
+import useTampilkanObat from "@/hooks/useTampilkanObat";
+import useTambahkanKasir from "@/hooks/useTambahkanKasir";
+// KOMPONEN
+import Memuat from "@/components/memuat";
 
 function Beranda() {
   const [pencarianObat, setPencarianObat] = useState("");
@@ -17,9 +22,17 @@ function Beranda() {
   const [uangPembeli, setUangPembeli] = useState(0);
   const [kembalian, setKembalian] = useState(0);
 
-  const namaObat = "Paracetamol";
-  const hargaObat = 5000;
+  const { daftarObat } = useTampilkanObat();
+  const { simpanTransaksi, memuatTransaksi } = useTambahkanKasir();
 
+  const obatYangDitemukan = daftarObat.find((obat) =>
+    obat.Nama_Obat.toLowerCase().includes(pencarianObat.toLowerCase())
+  );
+
+  const namaObat = obatYangDitemukan
+    ? obatYangDitemukan.Nama_Obat
+    : "Obat Tidak Ditemukan";
+  const hargaObat = obatYangDitemukan ? obatYangDitemukan.Harga_Obat : 0;
   const totalHarga = hargaObat * jumlahBeli;
 
   const handleUangPembeliChange = (event) => {
@@ -32,6 +45,14 @@ function Beranda() {
     setPencarianObat(event.target.value);
   };
 
+  const handleSelesaikanTransaksi = () => {
+    if (obatYangDitemukan) {
+      simpanTransaksi(namaObat, jumlahBeli, totalHarga, uangPembeli, kembalian);
+    } else {
+      alert("Obat tidak ditemukan!");
+    }
+  };
+
   return (
     <div className="w-full h-full p-6 bg-gray-500 bg-opacity-25 rounded-xl my-8">
       <div className="mt-6">
@@ -41,7 +62,7 @@ function Beranda() {
             label="Cari Obat"
             value={pencarianObat}
             onChange={handlePencarian}
-            className="text-black"
+            className="text-black bg-white w-20"
             color="black"
           />
           <FaSearch className="absolute top-3 right-4 text-black" size={20} />
@@ -49,13 +70,12 @@ function Beranda() {
       </div>
 
       <div className="mt-8">
-        <Card className="w-full md:w-2/3 mx-auto shadow-lg">
+        <Card className="w-20 md:w-2/3 mx-auto shadow-lg">
           <CardHeader
-            color="green"
             floated={false}
-            className="flex items-center justify-center"
+            className="w-20 h-20 self-center rounded-full flex items-center justify-center bg-gray-700"
           >
-            <FaCashRegister size={50} className="text-white" />
+            <FaCashRegister size={30} className="text-white" />
           </CardHeader>
 
           <CardBody className="text-center">
@@ -95,7 +115,13 @@ function Beranda() {
           </CardBody>
 
           <CardFooter className="flex items-center justify-center">
-            <Button color="green">Selesaikan Transaksi</Button>
+            <Button
+              className="bg-gray-700"
+              onClick={handleSelesaikanTransaksi}
+              disabled={memuatTransaksi}
+            >
+              {memuatTransaksi ? <Memuat /> : "Selesaikan Transaksi"}
+            </Button>
           </CardFooter>
         </Card>
       </div>
