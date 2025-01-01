@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import { RiEdit2Fill } from "react-icons/ri";
-// KOMPONEN
 import ModalTambahAdmin from "@/components/ModalTambahAdmin";
+import ModalSuntingAdmin from "@/components/ModalSuntingAdmin";
 import MemuatRangkaTampilkanTabel from "@/components/memuatRangkaTabel";
 import Memuat from "@/components/memuat";
-// HOOKS
 import useTampilkanAdmin from "@/hooks/useTampilkanAdmin";
 import useHapusAdmin from "@/hooks/useHapusAdmin";
 
 function Konten() {
   const [modalBuka, setModalBuka] = useState(false);
+  const [BukaModalSuntingAdmin, setBukaModalSuntingAdmin] = useState(false);
+  const [adminYangTerpilih, setAdminYangTerpilih] = useState(null);
   const { sedangMemuatTampilkanAdmin, daftarAdmin } = useTampilkanAdmin();
   const { sedangMemuatHapus, hapusAdmin } = useHapusAdmin();
 
@@ -75,9 +76,18 @@ function Konten() {
                     <button
                       className="text-blue-500 hover:text-blue-700"
                       aria-label="Edit"
+                      onClick={() => {
+                        if (admin.id) {
+                          setAdminYangTerpilih(admin.id);
+                          setBukaModalSuntingAdmin(true);
+                        } else {
+                          toast.error("Admin yang dipilih tidak valid.");
+                        }
+                      }}
                     >
                       <RiEdit2Fill size={18} />
                     </button>
+
                     <button
                       onClick={() => handleHapusAdmin(admin.id)}
                       className="text-red-500 hover:text-red-700"
@@ -97,7 +107,17 @@ function Konten() {
           </tbody>
         </table>
       </div>
-      <ModalTambahAdmin buka={modalBuka} tutup={tutupModal} />
+      <ModalTambahAdmin 
+        buka={modalBuka} 
+        tutup={tutupModal} 
+      />
+      {BukaModalSuntingAdmin && adminYangTerpilih && (
+        <ModalSuntingAdmin
+          buka={BukaModalSuntingAdmin}
+          tutup={setBukaModalSuntingAdmin}
+          adminTerpilih={adminYangTerpilih}
+        />
+      )}
     </div>
   );
 }
