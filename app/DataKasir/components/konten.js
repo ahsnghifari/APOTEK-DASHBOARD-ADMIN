@@ -7,6 +7,7 @@ import Memuat from "@/components/memuat";
 // HOOKS
 import useTampilkanKasir from "@/hooks/useTampilkanKasir";
 import useUnduhTransaksi from "@/hooks/useUnduhTransaksi";
+import useHapusKasir from "@/hooks/useHapusKasir";
 // KONSTANTA
 import { formatRupiah } from "@/constants/formatRupiah";
 import { formatTanggal } from "@/constants/formatTanggal";
@@ -14,6 +15,16 @@ import { formatTanggal } from "@/constants/formatTanggal";
 function Konten() {
   const { sedangMemuatTampilkanKasir, daftarKasir } = useTampilkanKasir();
   const { sedangMemuatUnduh, unduhPDF } = useUnduhTransaksi();
+  const { sedangMemuatHapus, hapusKasir } = useHapusKasir();
+
+  const handleHapusKasir = async (idKasir) => {
+    const konfirmasi = window.confirm(
+      "Apakah Anda yakin ingin menghapus Kasir ini?"
+    );
+    if (konfirmasi) {
+      await hapusKasir(idKasir);
+    }
+  };
 
   return (
     <div className="w-full h-full p-6 bg-gray-500 bg-opacity-25 rounded-xl my-8">
@@ -78,10 +89,16 @@ function Konten() {
                       )}
                     </button>
                     <button
+                      onClick={() => handleHapusKasir(kasir.id)}
                       className="text-red-500 hover:text-red-700"
                       aria-label="Hapus"
+                      disabled={sedangMemuatHapus}
                     >
-                      <FaTrashAlt size={18} />
+                      {sedangMemuatHapus ? (
+                        <Memuat />
+                      ) : (
+                        <FaTrashAlt size={18} />
+                      )}
                     </button>
                   </td>
                 </tr>
