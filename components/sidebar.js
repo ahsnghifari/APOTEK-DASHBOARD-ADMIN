@@ -6,12 +6,14 @@ import { FaUserShield, FaCashRegister } from "react-icons/fa";
 import { TbHomeEdit } from "react-icons/tb";
 import { GiMedicines } from "react-icons/gi";
 import { CiLogout } from "react-icons/ci";
+// KOMPONEN
+import Memuat from "@/components/memuat";
+// HOOKS
+import useKeluarAdmin from "@/hooks/useKeluarAdmin";
 
 function Sidebar() {
+  const { keluar, sedangMemuatKeluar } = useKeluarAdmin();
   const router = useRouter();
-  const handleKeluar = () => {
-    router.push("/");
-  };
 
   return (
     <div className="m-8 w-64  bg-gray-800 text-white rounded-lg p-6 flex flex-col">
@@ -58,10 +60,16 @@ function Sidebar() {
         </li>
       </ul>
       <div className="flex justify-center items-center">
-        <CiLogout onClick={handleKeluar} size={30} className="cursor-pointer" />
+        <button
+          onClick={keluar}
+          disabled={sedangMemuatKeluar}
+          className="cursor-pointer flex items-center"
+        >
+          {sedangMemuatKeluar ? <Memuat /> : <CiLogout size={30} />}
+        </button>
       </div>
       <div className="flex justify-center items-center">
-        <Typography variant="h6">Logout</Typography>
+        <Typography variant="h6">Keluar</Typography>
       </div>
     </div>
   );

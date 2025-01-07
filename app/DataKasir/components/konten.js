@@ -69,7 +69,7 @@ function Konten() {
                       className="text-green-500 hover:text-green-700"
                       aria-label="Unduh"
                       disabled={sedangMemuatUnduh}
-                      onClick={() => unduhPDF(daftarKasir)}
+                      onClick={() => unduhPDF(kasir)}
                     >
                       {sedangMemuatUnduh ? (
                         <Memuat />

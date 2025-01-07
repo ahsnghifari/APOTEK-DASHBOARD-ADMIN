@@ -13,7 +13,6 @@ import {
   CardHeader,
   Input,
   Typography,
-  IconButton,
 } from "@material-tailwind/react";
 
 // KOMPONEN

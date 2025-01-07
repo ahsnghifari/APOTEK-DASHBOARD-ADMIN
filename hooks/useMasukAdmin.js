@@ -24,7 +24,11 @@ const useMasukDenganEmailKataSandi = () => {
       );
 
       if (kredentialsAdmin.user) {
-        localStorage.setItem("ID_Admin", kredentialsAdmin.user.uid);
+        const adminId = kredentialsAdmin.user.uid;
+
+        localStorage.setItem("ID_Admin", adminId);
+        sessionStorage.setItem("ID_Admin", adminId);
+
         toast.success("Berhasil masuk!");
 
         setTimeout(() => {
